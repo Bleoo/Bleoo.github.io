@@ -6,19 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://Bleoo.github.io">
-  <title>Android动态加载Apk资源 | Bleoo的博客</title>
+  <title>Archives: 2017/7 | Bleoo的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="通过DexClassLoader加载未安装的apk，提供资源供宿主app使用。因为apk是未安装的，不可能通过createPackageContext(…)方法来构建出一个context，所以这时只有在Resource上下功夫，来获取插件apk的Resource对象。">
-<meta name="keywords" content="Android">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android动态加载Apk资源">
-<meta property="og:url" content="https://Bleoo.github.io/2017/04/28/Android 动态加载Apk资源/index.html">
+  <meta name="description" content="1dp重度强迫症。没钱，爱过，救我妈。">
+<meta name="keywords" content="Android,IOS,Java,开发者,程序猿,极客,编程,代码,IT网站,Developer,Coder,Geek">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bleoo的博客">
+<meta property="og:url" content="https://Bleoo.github.io/archives/2017/07/index.html">
 <meta property="og:site_name" content="Bleoo的博客">
-<meta property="og:description" content="通过DexClassLoader加载未安装的apk，提供资源供宿主app使用。因为apk是未安装的，不可能通过createPackageContext(…)方法来构建出一个context，所以这时只有在Resource上下功夫，来获取插件apk的Resource对象。">
-<meta property="og:updated_time" content="2017-06-30T08:11:53.000Z">
+<meta property="og:description" content="1dp重度强迫症。没钱，爱过，救我妈。">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android动态加载Apk资源">
-<meta name="twitter:description" content="通过DexClassLoader加载未安装的apk，提供资源供宿主app使用。因为apk是未安装的，不可能通过createPackageContext(…)方法来构建出一个context，所以这时只有在Resource上下功夫，来获取插件apk的Resource对象。">
+<meta name="twitter:title" content="Bleoo的博客">
+<meta name="twitter:description" content="1dp重度强迫症。没钱，爱过，救我妈。">
   
     <link rel="alternative" href="/atom.xml" title="Bleoo的博客" type="application/atom+xml">
   
@@ -148,71 +147,36 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android 动态加载Apk资源" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      Android动态加载Apk资源
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/07/14/Android 共享元素动画的简单实现/" class="archive-article-date">
+  	<time datetime="2017-07-14T08:52:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-14</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/07/14/Android 共享元素动画的简单实现/">Android 共享元素动画的简单实现</a>
     </h1>
   
 
-        
-        <a href="/2017/04/28/Android 动态加载Apk资源/" class="archive-article-date">
-  	<time datetime="2017-04-28T10:09:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<blockquote>
-<p>通过DexClassLoader加载未安装的apk，提供资源供宿主app使用。因为apk是未安装的，不可能通过createPackageContext(…)方法来构建出一个context，所以这时只有在Resource上下功夫，来获取插件apk的Resource对象。</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><blockquote>
-<p>关于动态加载未安装的apk</p>
-<ul>
-<li>获取插件apk存放在哪个目录下，然后分别得到插件apk的信息（名称、包名等），然后显示可用的插件，最后动态加载apk获得资源。</li>
-</ul>
-</blockquote>
-<h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><blockquote>
-<p>1.先准备一个测试工程</p>
-<p>2.在工程的mipmap目录下放入one.png</p>
-<p>3.打包工程build apk，改名为test.apk</p>
-<p>4.adb push test.apk的文件路径 /sdcard/</p>
-<p>5.准备动态加载工程</p>
-<p>6.获取test.apk的包信息</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> String <span class="title">getUninstallApkInfo</span><span class="params">(Context context, String archiveFilePath)</span> </span>&#123;</div><div class="line">	PackageManager pm = context.getPackageManager();</div><div class="line">	PackageInfo pkgInfo = pm.getPackageArchiveInfo(archiveFilePath, PackageManager.GET_ACTIVITIES);</div><div class="line">	<span class="keyword">if</span> (pkgInfo != <span class="keyword">null</span>) &#123;</div><div class="line">		ApplicationInfo appInfo = pkgInfo.applicationInfo;</div><div class="line">		String versionName = pkgInfo.versionName;<span class="comment">//版本号</span></div><div class="line">		Drawable icon = pm.getApplicationIcon(appInfo);<span class="comment">//图标</span></div><div class="line">		String appName = pm.getApplicationLabel(appInfo).toString();<span class="comment">//app名称</span></div><div class="line">		String pkgName = appInfo.packageName;<span class="comment">//包名</span></div><div class="line">		<span class="keyword">return</span> pkgName;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>7.利用反射得到目标Resources对象</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> Resources <span class="title">getPluginResources</span><span class="params">(String apkName)</span> </span>&#123;</div><div class="line">	<span class="keyword">try</span> &#123;</div><div class="line">		AssetManager assetManager = AssetManager.class.newInstance();</div><div class="line">		Method addAssetPath = assetManager.getClass().getMethod(<span class="string">"addAssetPath"</span>, String.class);<span class="comment">//反射调用方法addAssetPath(String path)</span></div><div class="line">		addAssetPath.invoke(assetManager, apkDir + File.separator + apkName);<span class="comment">//将未安装的Apk文件的添加进AssetManager中，第二个参数为apk文件的路径带apk名</span></div><div class="line">		Resources superRes = <span class="keyword">this</span>.getResources();</div><div class="line">		Resources mResources = <span class="keyword">new</span> Resources(assetManager, superRes.getDisplayMetrics(), superRes.getConfiguration());</div><div class="line">		<span class="keyword">return</span> mResources;</div><div class="line">	&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">		e.printStackTrace();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>8.动态加载apk</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dynamicLoadApk</span><span class="params">(String apkDir, String apkName, String apkPackageName)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">// 第一种方法动态加载apk，通过反射获取resId</span></div><div class="line">	File optimizedDirectoryFile = getDir(<span class="string">"dex"</span>, Context.MODE_PRIVATE);<span class="comment">//在应用安装目录下创建一个名为app_dex文件夹目录,如果已经存在则不创建</span></div><div class="line">	<span class="comment">//参数：1、包含dex的apk文件或jar文件的路径，2、apk、jar解压缩生成dex存储的目录，3、本地library库目录，一般为null，4、父ClassLoader</span></div><div class="line">	DexClassLoader dexClassLoader = <span class="keyword">new</span> DexClassLoader(apkDir+File.separator+apkName, optimizedDirectoryFile.getAbsolutePath(), <span class="keyword">null</span>, ClassLoader.getSystemClassLoader());</div><div class="line">	<span class="comment">//通过使用apk自己的类加载器，反射出R类中相应的内部类进而获取我们需要的资源id</span></div><div class="line">	Class&lt;?&gt; clazz = dexClassLoader.loadClass(apkPackageName + <span class="string">".R$mipmap"</span>);</div><div class="line">	Field field = clazz.getDeclaredField(<span class="string">"one"</span>);<span class="comment">//得到名为one的这张图片字段</span></div><div class="line">	<span class="keyword">int</span> resId = field.getInt(R.id.class);<span class="comment">//得到图片id</span></div><div class="line">	Resources mResources = getPluginResources(apkName);<span class="comment">//得到插件apk中的Resource</span></div><div class="line"></div><div class="line">	<span class="comment">// 第二种方法 获取resId</span></div><div class="line">	<span class="comment">//int resId = mResources.getIdentifier("one", "mipmap", apkPackageName);</span></div><div class="line"></div><div class="line">	<span class="keyword">if</span> (mResources != <span class="keyword">null</span>) &#123;</div><div class="line">		<span class="comment">//通过插件apk中的Resource得到resId对应的资源</span></div><div class="line">		findViewById(R.id.iv_pic).setBackground(mResources.getDrawable(resId));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><blockquote>
-<p>此处需要注意DexClassLoader的四个参数：</p>
-<ul>
-<li>dexPath：待加载的dex文件路径，如果是外存路径，一定要加上读外存文件的权限（<code>&lt;uses-permission android:name=&quot;android.permission.READ_EXTERNAL_STORAGE&quot;/&gt;</code> <strong>6.0应注意动态申请权限</strong> ）。</li>
-<li>optimizedDirectory：解压后的dex存放位置，此位置一定要是可读写且仅该应用可读写（安全性考虑），所以只能放在data/data下。本文getDir(“dex1”, 0)会在/data/data/**package/下创建一个名叫”app_dex1“的文件夹，其内存放的文件是自动生成output.dex。</li>
-<li>libraryPath：指向包含本地库(so)的文件夹路径，可以设为null。</li>
-<li>parent：父级类加载器，一般可以通过Context.getClassLoader获取到，也可以通过ClassLoader.getSystemClassLoader()取到。</li>
-</ul>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -224,98 +188,19 @@
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=https://Bleoo.github.io/2017/04/28/Android 动态加载Apk资源/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2017/07/14/Android 共享元素动画的简单实现/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android 共享元素动画的简单实现
-        
-      </div>
-    </a>
   
   
-    <a href="/2017/04/26/Android 动态加载Dex文件入门/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android动态加载Dex文件入门</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
+    
 
 
           </div>
@@ -338,8 +223,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
