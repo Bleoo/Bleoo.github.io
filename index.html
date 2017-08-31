@@ -149,6 +149,70 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Android-5-0到Android-6-0-的so动态库的适配问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/31/Android-5-0到Android-6-0-的so动态库的适配问题/">Android 5.0到Android 6.0+的so动态库的适配问题</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/31/Android-5-0到Android-6-0-的so动态库的适配问题/" class="archive-article-date">
+  	<time datetime="2017-08-31T04:16:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>先简单阐述下几个概念，这些不是重点。</p>
+</blockquote>
+<ol>
+<li>Android编译时候的 api 版本，指的是你要生成的这个 apk 所依赖的 sdk 版本，例如 api23 即是 Android 6.0。</li>
+<li>.so 动态链接库，为 Linux 下的库文件，Windows 是 .dll，Android 是基于 Linux 内核的，所以使用的是 .so，在安卓上面，一般由 C/C++ 语言进行 Jni 编程后，采用 NDK 工具编译后所生成的。</li>
+<li>.so的作用，主要是提供系统底层函数，供应用层使用。不用它行不？可以，在Android已经提供了的情况下，你不需要再自己添加，例如一个 View 的绘制，里面都有很多 Native 关键词的函数，这个就是底层函数，Android api 对应的是它已经提供了。</li>
+</ol>
+        
+          <a class="article-more-a" href="/2017/08/31/Android-5-0到Android-6-0-的so动态库的适配问题/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-Android 共享元素动画的简单实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -550,6 +614,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
               </li>
             
             <div class="clearfix"></div>

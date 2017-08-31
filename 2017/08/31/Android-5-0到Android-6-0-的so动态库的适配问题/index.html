@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://Bleoo.github.io">
-  <title>Android动态加载Dex文件入门 | Bleoo的博客</title>
+  <title>Android 5.0到Android 6.0+的so动态库的适配问题 | Bleoo的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Android使用Dalvik虚拟机加载可执行程序，所以不能直接加载基于class的jar，而是需要将class转化为dex字节码，从而执行代码。优化后的字节码文件可以存在一个*.jar中，只要其内部存放的是*.dex即可使用。">
-<meta name="keywords" content="Android">
+  <meta name="description" content="前言 先简单阐述下几个概念，这些不是重点。   Android编译时候的 api 版本，指的是你要生成的这个 apk 所依赖的 sdk 版本，例如 api23 即是 Android 6.0。 .so 动态链接库，为 Linux 下的库文件，Windows 是 .dll，Android 是基于 Linux 内核的，所以使用的是 .so，在安卓上面，一般由 C/C++ 语言进行 Jni 编程后，采用">
+<meta name="keywords" content="android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android动态加载Dex文件入门">
-<meta property="og:url" content="https://Bleoo.github.io/2017/04/26/Android 动态加载Dex文件入门/index.html">
+<meta property="og:title" content="Android 5.0到Android 6.0+的so动态库的适配问题">
+<meta property="og:url" content="https://Bleoo.github.io/2017/08/31/Android-5-0到Android-6-0-的so动态库的适配问题/index.html">
 <meta property="og:site_name" content="Bleoo的博客">
-<meta property="og:description" content="Android使用Dalvik虚拟机加载可执行程序，所以不能直接加载基于class的jar，而是需要将class转化为dex字节码，从而执行代码。优化后的字节码文件可以存在一个*.jar中，只要其内部存放的是*.dex即可使用。">
-<meta property="og:updated_time" content="2017-06-30T08:11:53.000Z">
+<meta property="og:description" content="前言 先简单阐述下几个概念，这些不是重点。   Android编译时候的 api 版本，指的是你要生成的这个 apk 所依赖的 sdk 版本，例如 api23 即是 Android 6.0。 .so 动态链接库，为 Linux 下的库文件，Windows 是 .dll，Android 是基于 Linux 内核的，所以使用的是 .so，在安卓上面，一般由 C/C++ 语言进行 Jni 编程后，采用">
+<meta property="og:updated_time" content="2017-08-31T04:26:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android动态加载Dex文件入门">
-<meta name="twitter:description" content="Android使用Dalvik虚拟机加载可执行程序，所以不能直接加载基于class的jar，而是需要将class转化为dex字节码，从而执行代码。优化后的字节码文件可以存在一个*.jar中，只要其内部存放的是*.dex即可使用。">
+<meta name="twitter:title" content="Android 5.0到Android 6.0+的so动态库的适配问题">
+<meta name="twitter:description" content="前言 先简单阐述下几个概念，这些不是重点。   Android编译时候的 api 版本，指的是你要生成的这个 apk 所依赖的 sdk 版本，例如 api23 即是 Android 6.0。 .so 动态链接库，为 Linux 下的库文件，Windows 是 .dll，Android 是基于 Linux 内核的，所以使用的是 .so，在安卓上面，一般由 C/C++ 语言进行 Jni 编程后，采用">
   
     <link rel="alternative" href="/atom.xml" title="Bleoo的博客" type="application/atom+xml">
   
@@ -148,61 +148,139 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android 动态加载Dex文件入门" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Android-5-0到Android-6-0-的so动态库的适配问题" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Android动态加载Dex文件入门
+      Android 5.0到Android 6.0+的so动态库的适配问题
     </h1>
   
 
         
-        <a href="/2017/04/26/Android 动态加载Dex文件入门/" class="archive-article-date">
-  	<time datetime="2017-04-26T06:58:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-26</time>
+        <a href="/2017/08/31/Android-5-0到Android-6-0-的so动态库的适配问题/" class="archive-article-date">
+  	<time datetime="2017-08-31T04:16:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<blockquote>
-<p> Android使用Dalvik虚拟机加载可执行程序，所以不能直接加载基于class的jar，而是需要将class转化为dex字节码，从而执行代码。优化后的字节码文件可以存在一个*.jar中，只要其内部存放的是*.dex即可使用。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>先简单阐述下几个概念，这些不是重点。</p>
 </blockquote>
+<ol>
+<li>Android编译时候的 api 版本，指的是你要生成的这个 apk 所依赖的 sdk 版本，例如 api23 即是 Android 6.0。</li>
+<li>.so 动态链接库，为 Linux 下的库文件，Windows 是 .dll，Android 是基于 Linux 内核的，所以使用的是 .so，在安卓上面，一般由 C/C++ 语言进行 Jni 编程后，采用 NDK 工具编译后所生成的。</li>
+<li>.so的作用，主要是提供系统底层函数，供应用层使用。不用它行不？可以，在Android已经提供了的情况下，你不需要再自己添加，例如一个 View 的绘制，里面都有很多 Native 关键词的函数，这个就是底层函数，Android api 对应的是它已经提供了。</li>
+</ol>
 <a id="more"></a>
-<h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><blockquote>
-<p>将class的jar包转化为dex需要用到命令dx（在<em>\android-sdk\build-tools\version[23.0.1] 或 </em>\android-sdk\platform-tools下能找到）;命令使用方式为：dx –dex –output=output.jar origin.jar，该命令将包含class的origin.jar转化为包含dex的output.jar文件。</p>
-<p>Android支持动态加载的两种方式是：DexClassLoader和PathClassLoader，DexClassLoader可加载jar/apk/dex，且支持从SD卡加载。PathClassLoader 的限制要更多一些，它只能加载已经安装到 Android 系统中的 apk 文件，也就是 /data/app 目录下的 apk 文件。其它位置的文件加载的时候都会出现 ClassNotFoundException。</p>
+<h2 id="问题来了"><a href="#问题来了" class="headerlink" title="问题来了"></a>问题来了</h2><blockquote>
+<p>发生的环境：</p>
 </blockquote>
-<h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><blockquote>
-<p>1.定义一个接口IShowToast.Java</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.example.testdextoast;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IShowToast</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">showToast</span><span class="params">(Context context)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此类问题一般发生在 Android 6.0 及其以上的系统，具体也存在于其他的 api 版本，主要集中在 api &gt;=23；</p>
 <blockquote>
-<p>2.定义一个简单实现ShowToastImpl.java</p>
+<p>具体表现是：</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.example.testdextoast;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.widget.Toast;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShowToastImpl</span> <span class="keyword">implements</span> <span class="title">IShowToast</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">showToast</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">		Toast.makeText(context, <span class="string">"我来自另一个dex文件"</span>, Toast.LENGTH_LONG).show();</div><div class="line">		<span class="keyword">return</span> <span class="number">100</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>3.将且仅将ShowToastImpl.java导出为jar（Eclipse工程右键-&gt;Export-&gt;Java-&gt;Jar file），这时候我们得到一个包含class文件的jar，命名为origin.jar。</p>
-<p>4.在命令行下，进入dx所在目录，将jar文件拷到该目录下，执行dx –dex –output=output.jar origin.jar，得到内含class.dex的output.jar</p>
-<p>5.将output.jar文件放到SD卡下adb push output.jar sdcard/output.jar（或者将jar内的dex抽出来放到SD卡亦可）</p>
-<p>6.开始编写调用代码</p>
-<p>7.新建调用的Android工程，将IShowToast.java放入该工程，注意：此处一定不能改变此文件的包路径，否则dex中的实现类找不到接口</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.example.testdextoast;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"></div><div class="line"><span class="keyword">import</span> dalvik.system.DexClassLoader;</div><div class="line"><span class="keyword">import</span> android.app.Activity;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.os.Environment;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">		setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">		File dexOutputDir = getDir(<span class="string">"dex1"</span>, <span class="number">0</span>);</div><div class="line">		String dexPath = Environment.getExternalStorageDirectory().toString() + File.separator + <span class="string">"output.jar"</span>;</div><div class="line">		DexClassLoader loader = <span class="keyword">new</span> DexClassLoader(dexPath, dexOutputDir.getAbsolutePath(), <span class="keyword">null</span>, getClassLoader());</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Class clz = loader.loadClass(<span class="string">"com.example.testdextoast.ShowToastImpl"</span>);</div><div class="line">			IShowToast impl = (IShowToast) clz.newInstance();</div><div class="line">			impl.showToast(<span class="keyword">this</span>);</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			Log.d(<span class="string">"MainActivity"</span>, <span class="string">"error happened"</span>, e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><blockquote>
-<p>此处需要注意DexClassLoader的四个参数：</p>
+<p>同一个 APP 在 api &lt;=22 的 sdk 情况下编译，可以运行正常，不存在闪退或者 .so 库加载失败的情况，当你采用 api &gt;=23 的sdk 编译的时候，安装到 Android 6.0 及其以上的手机的时候，大范围出现崩溃 或者 .so 库加载失败，而在 6.0 以下的手机却正常。</p>
+<p>Catch的信息：<br><figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dlopen failed: cannot <span class="keyword">locate</span> symbol <span class="string">"XXXX"</span> xxxx.so</div></pre></td></tr></table></figure></p>
+<p>此类崩溃信息，你完全可以对号入”座”。</p>
+<h2 id="为何如此"><a href="#为何如此" class="headerlink" title="为何如此"></a>为何如此</h2><p>​    如果只为解决问题，可以不看这部分。</p>
+<p>　　现在我用一句话说白它，就是：不同链接方式时，dlopen会打开指定的系统中(手机中)或提供的动态库，并使用 dlsym 获取符号地址，也就是说，如果，在此时的手机中如果找不到，那么就会出问题，一般和 API 有关系。</p>
+<p>　　人为因素就是，编译这个 .so 库的人，他在编译的时候没考虑到下面这些情况，导致提供给别人用的时候，或者自己用的时候在高 API 版本手机出现问题。
+　　</p>
+<h2 id="NDK兼容性"><a href="#NDK兼容性" class="headerlink" title="NDK兼容性"></a>NDK兼容性</h2><p>​    使用NDK时，你可能会倾向于使用最新的编译平台，但事实上这是错误的，因为NDK平台不是后向兼容（兼容过去的版本）的，而是前向兼容（兼容将来的版本）的。推荐使用app的minSdkVersion对应的编译平台。</p>
+<p>这也意味着当你引入一个预编译好的.so文件时，你需要检查它被编译所用的平台版本。</p>
+<h2 id="程序运行时"><a href="#程序运行时" class="headerlink" title="程序运行时"></a>程序运行时</h2><p>​    上面提到 .so 是运行在 Linux 环境下的，而且在 Android 里面一般由 NDK 编译，编译的时候，我们可以指明一种文件叫做 Application.mk，里面有一行指明库的链接方式<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">APP_STL := XXX</div></pre></td></tr></table></figure></p>
+<p>gradle中，在android.defaultConfig.ndk节点下 stl</p>
+<p> 默认是静态，STL的取值：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>libstdc++(system)</td>
+<td>默认最小系统 C++ 运行时库。    默认的值，最危险方式，直接和手机系统版本挂钩，采用手机最小版本的.so库链接</td>
+<td>不适用</td>
+</tr>
+<tr>
+<td>gabi++_static</td>
+<td>GAbi++ 运行时（静态）</td>
+<td>C++ 异常和 RTTI</td>
+</tr>
+<tr>
+<td>gabi++_shared</td>
+<td>GAbi++ 运行时（共享）</td>
+<td>C++ 异常和 RTTI</td>
+</tr>
+<tr>
+<td>stlport_static</td>
+<td>STLport 运行时（静态）</td>
+<td>C++ 异常和 RTTI；标准库</td>
+</tr>
+<tr>
+<td>stlport_shared</td>
+<td>STLport 运行时（共享）</td>
+<td>C++ 异常和 RTTI；标准库</td>
+</tr>
+<tr>
+<td>gnustl_static</td>
+<td>GNU STL（静态）</td>
+<td>C++ 异常和 RTTI；标准库</td>
+</tr>
+<tr>
+<td>gnustl_shared</td>
+<td>GNU STL（共享）</td>
+<td>C++ 异常和 RTTI；标准库</td>
+</tr>
+<tr>
+<td>c++_static</td>
+<td>LLVM libc++ 运行时（静态）</td>
+<td>C++ 异常和 RTTI；标准库</td>
+</tr>
+<tr>
+<td>c++_shared</td>
+<td>LLVM libc++ 运行时（共享）</td>
+<td>C++ 异常和 RTTI；标准库</td>
+</tr>
+</tbody>
+</table>
+<p>​    如果不特别定义的话，“system”运行时库是默认的值。除此之外，凡是后面带“_static”的，表示其是一个静态链接的运行时库（运行时库的代码包含在编译后的程序中）；而凡是后面带“_shared”的，表示其是一个动态链接的运行时库（运行时库在程序运行时被动态加载进来）。如果去除动态或静态链接的因素，则除了默认的“system”运行时库之外，还有所谓的“gabi++”运行时库、“stlport”运行时库和“gunstl”运行时库。如果想支持C++异常的话，必须要使用gunstl运行时库。</p>
+<p>主要是两种链接，静态链接，动态链接：</p>
 <ul>
-<li>dexPath：待加载的dex文件路径，如果是外存路径，一定要加上读外存文件的权限（<code>&lt;uses-permission android:name=&quot;android.permission.READ_EXTERNAL_STORAGE&quot;/&gt;</code> ）。</li>
-<li>optimizedDirectory：解压后的dex存放位置，此位置一定要是可读写且仅该应用可读写（安全性考虑），所以只能放在data/data下。本文getDir(“dex1”, 0)会在/data/data/**package/下创建一个名叫”app_dex1“的文件夹，其内存放的文件是自动生成output.dex。</li>
-<li>libraryPath：指向包含本地库(so)的文件夹路径，可以设为null。</li>
-<li>parent：父级类加载器，一般可以通过Context.getClassLoader获取到，也可以通过ClassLoader.getSystemClassLoader()取到。</li>
-</ul>
+<li><p>动态链接，</p>
+<blockquote>
+<p>指在生成可执行文件时不将所有程序用到的函数链接到一个文件，因为有许多函数在操作系统带的dll文件中，当程序运行时直接从操作系统中找。</p>
 </blockquote>
-
+</li>
+<li><p>静态链接</p>
+<blockquote>
+<p>把所有用到的函数全部链接到 .so 文件中。</p>
+</blockquote>
+</li>
+</ul>
+<p>​    重点来了，上面说到了，静态链接是会把所需要的都搞到exe中，其实不然，这个说法是早期的了，对于现在的 Android 发展来说，为了使程序方便扩展，具备通用性，已经采用插件形式来链接动态库，编译时的静态和动态链接仅仅是程度问题。插件加载形式有：
+　　</p>
+<ul>
+<li>dlopen</li>
+<li>dlsym</li>
+<li>dlclose</li>
+</ul>
+<p>dlopen打开指定的系统中(手机中)动态库。并使用 dlsym 获取符号地址，也就是说，如果，在此时的手机中如果找不到，那么就会出问题，一般和 API 有关系。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>主要有两种：</p>
+<ol>
+<li>委曲求全，指标不治本，把你的 APK target API 先降低到 23以下，若不行再把 编译时 API 降低到 23 以下，还出问题就继续降低，这意味着，你很多 Android Sdk 的新控件用不了；</li>
+<li>在 Application.mk 中修改 APP_STL，重新编译 .so ，如果，我说如果你没有源码，那么悲剧了，要么等他们解决，要么采用第一种，建议尝试，APP_STL := gnustl_shared。</li>
+</ol>
+<p>这种方式，对于所需要的外部动态链接函数、符号，在 NDK 13b 中都会独立生成一份，全部引用就解决此类问题，例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">load</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        System.loadLibrary(<span class="string">"gnustl_shared"</span>);</div><div class="line">        System.loadLibrary(<span class="string">"speex"</span>);</div><div class="line">    &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">        Log.d(<span class="string">"zzzzz"</span>,<span class="string">"加载语音库异常 ："</span>+e.toString());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
 
       
@@ -215,7 +293,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">android</a>
         		</li>
       		
 		</ul>
@@ -271,7 +349,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=https://Bleoo.github.io/2017/04/26/Android 动态加载Dex文件入门/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://Bleoo.github.io/2017/08/31/Android-5-0到Android-6-0-的so动态库的适配问题/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -285,18 +363,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/04/28/Android 动态加载Apk资源/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android动态加载Apk资源
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/02/28/Android运行时权限库PermissionsDispatcher/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android运行时权限库PermissionsDispatcher</div>
+    <a href="/2017/07/14/Android 共享元素动画的简单实现/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 共享元素动画的简单实现</div>
       <i class="icon-circle-right"></i>
     </a>
   
