@@ -185,7 +185,7 @@
 <p>具体表现是：</p>
 </blockquote>
 <p>同一个 APP 在 api &lt;=22 的 sdk 情况下编译，可以运行正常，不存在闪退或者 .so 库加载失败的情况，当你采用 api &gt;=23 的sdk 编译的时候，安装到 Android 6.0 及其以上的手机的时候，大范围出现崩溃 或者 .so 库加载失败，而在 6.0 以下的手机却正常。</p>
-<p>Catch的信息：<br><figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dlopen failed: cannot <span class="keyword">locate</span> symbol <span class="string">"XXXX"</span> xxxx.so</div></pre></td></tr></table></figure></p>
+<p>Catch的信息：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dlopen <span class="string">failed:</span> cannot locate symbol <span class="string">"XXXX"</span> xxxx.so</div></pre></td></tr></table></figure></p>
 <p>此类崩溃信息，你完全可以对号入”座”。</p>
 <h2 id="为何如此"><a href="#为何如此" class="headerlink" title="为何如此"></a>为何如此</h2><p>​    如果只为解决问题，可以不看这部分。</p>
 <p>　　现在我用一句话说白它，就是：不同链接方式时，dlopen会打开指定的系统中(手机中)或提供的动态库，并使用 dlsym 获取符号地址，也就是说，如果，在此时的手机中如果找不到，那么就会出问题，一般和 API 有关系。</p>
@@ -362,6 +362,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2017/10/11/Butterknife的实现探究/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Butterknife的实现探究
+        
+      </div>
+    </a>
   
   
     <a href="/2017/07/14/Android 共享元素动画的简单实现/" id="article-nav-older" class="article-nav-link-wrap">
